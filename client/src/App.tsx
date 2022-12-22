@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import { createDeck } from './api/createDeck';
+import { deleteDeck } from './api/deleteDeck';
+import { getDecks, TDeck } from './api/getDecks';
 import './App.css'
-
-type TDeck = {
-  title: string;
-  _id: string;
-}
 
 function App() {
   const [decks, setDecks] = useState<TDeck[]>([]);
@@ -12,32 +11,21 @@ function App() {
 
   async function handleCreateDeck(e: React.FormEvent) {
     e.preventDefault();
-    const response = await fetch('http://localhost:5000/decks', {
-      method: 'POST',
-      body: JSON.stringify({
-        title,
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-    const deck = await response.json()
+    
+    const deck = await createDeck(title)
     setDecks([...decks, deck])
     setTitle("");
   }
 
   async function handleDeleteDeck(deckId: string){
-    await fetch(`http://localhost:5000/decks/${deckId}`, {
-      method: 'DELETE',
-    });
+    await deleteDeck(deckId);
     setDecks(decks.filter((deck) => deck._id !== deckId))
   }
 
   useEffect(() => {
     console.log("WE are here")
     async function fetchDecks() {
-      const response = await fetch("http://localhost:5000/decks");
-      const newDecks = await response.json();
+      const newDecks = await getDecks();
       setDecks(newDecks);
     }
     fetchDecks();
@@ -50,7 +38,7 @@ function App() {
           decks.map((deck) => (
             <li key={deck._id}>
               <button onClick={() => handleDeleteDeck(deck._id)}>X</button>
-              {deck.title}
+              <Link to={`decks/${deck._id}`}>{deck.title}</Link>
             </li>
           ))
         }
