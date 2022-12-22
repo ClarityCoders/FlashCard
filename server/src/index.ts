@@ -22,6 +22,12 @@ app.post('/decks', async (req: Request, res: Response) => {
     res.json(createdDeck)
 });
 
+app.get('/decks', async (req: Request, res: Response) => {
+    // Fetch all desks send to user
+    const decks = await Deck.find();
+    res.json(decks)
+});
+
 const db = mongoose.connect(process.env.MONGO_URL!).then(()=> {
     console.log(`Listening on port ${PORT}`)
     app.listen(PORT);
