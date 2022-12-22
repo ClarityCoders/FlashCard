@@ -15,6 +15,7 @@
 }
 .decks li {
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   height: 100px;
@@ -27,4 +28,12 @@
 
 body {
   background-color: rgb(50, 50, 50);
+}
+
+.decks li button {
+  position: absolute;
+  font-size: 10px;
+  top: 0;
+  right: 5px;
+  background-color: white;
 }
