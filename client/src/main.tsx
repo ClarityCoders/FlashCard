@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import { Header } from './Header'
 import './index.css'
 import {
   createBrowserRouter,
@@ -15,13 +16,14 @@ const router = createBrowserRouter([
     element: <App />
   },
   {
-    path: "/decks/:id",
+    path: "/decks/:deckId",
     element: <Deck />
   },
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
+    <Header />
     <RouterProvider router={router} />
   </React.StrictMode>,
 )
